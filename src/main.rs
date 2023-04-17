@@ -52,9 +52,13 @@ impl ToDo {
 }
 
 fn main() {
-    let action = std::env::args().nth(1).expect("Kindly provide an antion point:
-                                                'add', or 'complete' ");
-    let item = std::env::args().nth(2).expect("Kindly provide a to-do activity");
+    let action = std::env::args().nth(1).expect(
+        "Kindly provide an antion point:
+                                                'add', or 'complete' ",
+    );
+    let item = std::env::args()
+        .nth(2)
+        .expect("Kindly provide a to-do activity");
 
     let mut todo = ToDo::create_new().expect("Failed to initialize the database");
 
