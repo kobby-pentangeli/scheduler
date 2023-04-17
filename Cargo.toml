@@ -5,6 +5,7 @@ description = "Command-line TO-DO application"
 authors = ["Kobby Pentangeli <kobbypentangeli@gmail.com>"]
 repository = "https://github.com/kobby-pentangeli/todo"
 readme = "README.md"
+license = "MIT or APACHE-2.0"
 edition = "2021"
 
 [dependencies]
