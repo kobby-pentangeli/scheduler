@@ -1,3 +1,7 @@
+pub mod error;
+
+pub type Result<T> = std::result::Result<T, error::Error>;
+
 use std::collections::HashMap;
 
 pub struct ToDo {
@@ -7,7 +11,7 @@ pub struct ToDo {
 }
 
 impl ToDo {
-    pub fn create_new() -> Result<ToDo, std::io::Error> {
+    pub fn create_new() -> Result<Self> {
         let f = std::fs::OpenOptions::new()
             .write(true)
             .create(true)
@@ -29,7 +33,7 @@ impl ToDo {
         self.map.insert(key, true);
     }
 
-    pub fn save(self) -> Result<(), Box<dyn std::error::Error>> {
+    pub fn save(self) -> Result<()> {
         let f = std::fs::OpenOptions::new()
             .write(true)
             .create(true)
