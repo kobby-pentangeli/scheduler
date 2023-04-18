@@ -1,6 +1,6 @@
 [package]
 name = "todo"
-version = "0.1.1"
+version = "1.0.0"
 description = "Command-line TO-DO application"
 authors = ["Kobby Pentangeli <kobbypentangeli@gmail.com>"]
 repository = "https://github.com/kobby-pentangeli/todo"
