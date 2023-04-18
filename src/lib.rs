@@ -1,6 +1,6 @@
 pub mod error;
-pub mod todo;
+pub mod journal;
 
-pub use todo::ToDo;
+pub use journal::ToDo;
 
 pub type Result<T> = std::result::Result<T, error::Error>;
