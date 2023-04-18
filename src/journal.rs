@@ -1,6 +1,7 @@
 use crate::{error::Error, Result};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use std::fs::OpenOptions;
 
 #[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub struct Journal {
@@ -9,7 +10,7 @@ pub struct Journal {
 
 impl Journal {
     pub fn new() -> Result<Self> {
-        let f = std::fs::OpenOptions::new()
+        let f = OpenOptions::new()
             .write(true)
             .create(true)
             .read(true)
@@ -22,21 +23,22 @@ impl Journal {
         }
     }
 
-    pub fn insert(&mut self, key: &str) {
-        // Inserts a new to-do activity in the map while
-        // setting the status/state of the activity to `true` by default
-        self.entries.insert(key.to_string(), true);
+    /// Inserts a key-value pair into the map of journal entries.
+    ///
+    /// If the map did not have this key present, `None` is returned.
+    /// If the map did have this key present, the value is updated, and
+    /// the old value is returned. The key is not updated, though.
+    pub fn insert(&mut self, key: &str) -> Option<bool> {
+        self.entries.insert(key.to_string(), true)
     }
 
     pub fn save(self) -> Result<()> {
-        let f = std::fs::OpenOptions::new()
+        let f = OpenOptions::new()
             .write(true)
             .create(true)
             .truncate(true)
             .open("db.json")?;
-        serde_json::to_writer_pretty(f, &self.entries)?;
-
-        Ok(())
+        Ok(serde_json::to_writer_pretty(f, &self.entries)?)
     }
 
     pub fn complete(&mut self, key: &str) -> Option<()> {
