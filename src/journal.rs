@@ -1,8 +1,8 @@
-use crate::Result;
+use crate::{error::Error, Result};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub struct Journal {
     entries: HashMap<String, bool>,
 }
@@ -17,17 +17,15 @@ impl Journal {
 
         match serde_json::from_reader(f) {
             Ok(entries) => Ok(Self { entries }),
-            Err(e) if e.is_eof() => Ok(Self {
-                entries: HashMap::new(),
-            }),
-            Err(e) => panic!("There was a problem: {}.", e),
+            Err(e) if e.is_eof() => Ok(Self::default()),
+            Err(e) => Err(Error::SerdeJsonSerializeError(e)),
         }
     }
 
-    pub fn insert(&mut self, key: String) {
+    pub fn insert(&mut self, key: &str) {
         // Inserts a new to-do activity in the map while
         // setting the status/state of the activity to `true` by default
-        self.entries.insert(key, true);
+        self.entries.insert(key.to_string(), true);
     }
 
     pub fn save(self) -> Result<()> {
@@ -41,7 +39,7 @@ impl Journal {
         Ok(())
     }
 
-    pub fn complete(&mut self, key: &String) -> Option<()> {
+    pub fn complete(&mut self, key: &str) -> Option<()> {
         match self.entries.get_mut(key) {
             Some(val) => {
                 *val = false;
