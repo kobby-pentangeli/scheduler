@@ -1,14 +1,14 @@
 use crate::Result;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-pub struct ToDo {
-    // Stores a key-value pair of a to-do item and its status
-    // using the built-in `HashMap` of Rust.
-    map: HashMap<String, bool>,
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Journal {
+    entries: HashMap<String, bool>,
 }
 
-impl ToDo {
-    pub fn create_new() -> Result<Self> {
+impl Journal {
+    pub fn new() -> Result<Self> {
         let f = std::fs::OpenOptions::new()
             .write(true)
             .create(true)
@@ -16,9 +16,9 @@ impl ToDo {
             .open("db.json")?;
 
         match serde_json::from_reader(f) {
-            Ok(map) => Ok(ToDo { map }),
-            Err(e) if e.is_eof() => Ok(ToDo {
-                map: HashMap::new(),
+            Ok(entries) => Ok(Self { entries }),
+            Err(e) if e.is_eof() => Ok(Self {
+                entries: HashMap::new(),
             }),
             Err(e) => panic!("There was a problem: {}.", e),
         }
@@ -27,7 +27,7 @@ impl ToDo {
     pub fn insert(&mut self, key: String) {
         // Inserts a new to-do activity in the map while
         // setting the status/state of the activity to `true` by default
-        self.map.insert(key, true);
+        self.entries.insert(key, true);
     }
 
     pub fn save(self) -> Result<()> {
@@ -36,13 +36,13 @@ impl ToDo {
             .create(true)
             .truncate(true)
             .open("db.json")?;
-        serde_json::to_writer_pretty(f, &self.map)?;
+        serde_json::to_writer_pretty(f, &self.entries)?;
 
         Ok(())
     }
 
     pub fn complete(&mut self, key: &String) -> Option<()> {
-        match self.map.get_mut(key) {
+        match self.entries.get_mut(key) {
             Some(val) => {
                 *val = false;
                 Some(())
