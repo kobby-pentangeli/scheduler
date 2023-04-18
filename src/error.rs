@@ -1,7 +1,7 @@
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
     #[error("{0}")]
-    FileCreationError(std::io::Error),
+    FileCreateAndReadError(std::io::Error),
 
     #[error("{0}")]
     SerdeJsonSerializeError(serde_json::Error),
@@ -9,7 +9,7 @@ pub enum Error {
 
 impl From<std::io::Error> for Error {
     fn from(value: std::io::Error) -> Self {
-        Error::FileCreationError(value)
+        Error::FileCreateAndReadError(value)
     }
 }
 
