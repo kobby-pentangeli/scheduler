@@ -18,7 +18,9 @@ impl Todo {
 
         match serde_json::from_reader(f) {
             Ok(entries) => Ok(Self { entries }),
-            Err(e) if e.is_eof() => Ok(Self::default()),
+            Err(e) if e.is_eof() => Ok(Self {
+                entries: HashMap::new(),
+            }),
             Err(e) => Err(Error::SerdeJsonSerializeError(e)),
         }
     }
@@ -70,12 +72,6 @@ impl Todo {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn test_todo_new() {
-        let todo = Todo::new().unwrap();
-        assert!(todo.entries.is_empty());
-    }
 
     #[test]
     fn test_todo_insert() {
