@@ -66,3 +66,41 @@ impl Todo {
         entries
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_todo_new() {
+        let todo = Todo::new().unwrap();
+        assert!(todo.entries.is_empty());
+    }
+
+    #[test]
+    fn test_todo_insert() {
+        let mut todo = Todo::new().unwrap();
+        assert_eq!(todo.insert("Task 1"), None);
+        assert_eq!(todo.entries.len(), 1);
+        assert_eq!(todo.insert("Task 1"), Some(true));
+        assert_eq!(todo.entries.len(), 1);
+    }
+
+    #[test]
+    fn test_todo_complete() {
+        let mut todo = Todo::new().unwrap();
+        todo.insert("Task 1");
+        assert_eq!(todo.complete("Task 2"), None);
+        assert_eq!(todo.complete("Task 1"), Some(()));
+        assert_eq!(todo.entries.get("Task 1"), Some(&false));
+    }
+
+    #[test]
+    fn test_todo_save() {
+        let mut todo = Todo::new().unwrap();
+        todo.insert("Task 1");
+        todo.save().unwrap();
+        let new_todo = Todo::new().unwrap();
+        assert_eq!(new_todo.entries.get("Task 1"), Some(&true));
+    }
+}
