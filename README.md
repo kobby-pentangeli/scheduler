@@ -2,6 +2,16 @@
 
 A command-line TO-DO application
 
+## Contributing
+
+Thank you for considering to contribute to this project!
+
+All contributions large and small are actively accepted.
+
+- To get started, please read the [contribution guidelines](https://github.com/kobby-pentangeli/todo/blob/master/CONTRIBUTING.md).
+
+- Browse [Good First Issues](https://github.com/kobby-pentangeli/todo/labels/good%20first%20issue).
+
 ## License
 
 <sup>
