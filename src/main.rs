@@ -1,4 +1,4 @@
-use todo::Journal;
+use todoapp::Journal;
 
 fn main() {
     let action = std::env::args()

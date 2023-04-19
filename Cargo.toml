@@ -1,9 +1,9 @@
 [package]
-name = "todo"
+name = "todoapp"
 version = "1.0.1"
-description = "Command-line TO-DO application"
+description = "A command-line TO-DO application"
 authors = ["Kobby Pentangeli <kobbypentangeli@gmail.com>"]
-repository = "https://github.com/kobby-pentangeli/todo"
+repository = "https://github.com/kobby-pentangeli/todoapp-rs"
 readme = "README.md"
 license = "MIT or APACHE-2.0"
 keywords = ["todo", "cli", "to-do"]
@@ -11,7 +11,7 @@ categories = ["Command line utilities"]
 edition = "2021"
 
 [lib]
-name = "todo"
+name = "todoapp"
 path = "src/lib.rs"
 test = true
 doctest = true
@@ -21,7 +21,7 @@ harness = true
 crate-type = ["cdylib", "rlib"]
 
 [[bin]]
-name = "todoapp"
+name = "todo"
 path = "src/main.rs"
 test = false
 bench = false
