@@ -1,4 +1,4 @@
-use todoapp::Journal;
+use todoapp::Todo;
 
 fn main() {
     let action = std::env::args()
@@ -8,7 +8,7 @@ fn main() {
         .nth(2)
         .expect("Kindly provide a to-do activity");
 
-    let mut todo = Journal::new().expect("Failed to initialize the database");
+    let mut todo = Todo::new().expect("Failed to initialize the database");
 
     // Checks to see if an `action` point and a to-do `item` have been provided.
     // If true, the item is saved to the TODO database

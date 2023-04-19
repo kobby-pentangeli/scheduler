@@ -4,11 +4,11 @@ use std::collections::HashMap;
 use std::fs::OpenOptions;
 
 #[derive(Default, Debug, Clone, Serialize, Deserialize)]
-pub struct Journal {
+pub struct Todo {
     entries: HashMap<String, bool>,
 }
 
-impl Journal {
+impl Todo {
     pub fn new() -> Result<Self> {
         let f = OpenOptions::new()
             .write(true)
