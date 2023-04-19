@@ -1,4 +1,4 @@
-# TODO
+# TodoApp
 
 A command-line TO-DO application
 
