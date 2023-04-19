@@ -3,12 +3,19 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs::OpenOptions;
 
+/// Represents a `todo` list
 #[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub struct Todo {
+    // A map of `todo` items, where the keys represent the items
+    // and the values are booleans indicating whether the items are completed.
     entries: HashMap<String, bool>,
 }
 
 impl Todo {
+    /// Creates a new `Todo`.
+    ///
+    /// If a file named "db.json" exists, it attempts to read from it and deserialize
+    /// the data into a `Todo` struct. Otherwise, an empty `Todo` struct is created.
     pub fn new() -> Result<Self> {
         let f = OpenOptions::new()
             .write(true)
@@ -25,7 +32,7 @@ impl Todo {
         }
     }
 
-    /// Inserts a key-value pair into the map of journal entries.
+    /// Inserts a key-value pair into the map of `todo` entries.
     ///
     /// If the map did not have this key present, `None` is returned.
     /// If the map did have this key present, the value is updated, and
@@ -34,6 +41,7 @@ impl Todo {
         self.entries.insert(key.to_string(), true)
     }
 
+    /// Saves the current state of the `Todo` struct to a file named "db.json".
     pub fn save(self) -> Result<()> {
         let f = OpenOptions::new()
             .write(true)
@@ -43,6 +51,7 @@ impl Todo {
         Ok(serde_json::to_writer_pretty(f, &self.entries)?)
     }
 
+    /// Marks a `todo` item as completed.
     pub fn complete(&mut self, key: &str) -> Option<()> {
         match self.entries.get_mut(key) {
             Some(val) => {
@@ -53,7 +62,7 @@ impl Todo {
         }
     }
 
-    /// Iterates over the entries map, returning each key along with its status.
+    /// Iterates over the `todo` entries, returning each key along with its status.
     /// If the value is true, it's considered incomplete, and if it's false, it's considered complete.
     pub fn read(&self) -> HashMap<&String, String> {
         let mut entries = HashMap::new();
