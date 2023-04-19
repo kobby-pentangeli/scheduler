@@ -18,7 +18,9 @@ impl Todo {
 
         match serde_json::from_reader(f) {
             Ok(entries) => Ok(Self { entries }),
-            Err(e) if e.is_eof() => Ok(Self::default()),
+            Err(e) if e.is_eof() => Ok(Self {
+                entries: HashMap::new(),
+            }),
             Err(e) => Err(Error::SerdeJsonSerializeError(e)),
         }
     }
@@ -49,5 +51,52 @@ impl Todo {
             }
             None => None,
         }
+    }
+
+    /// Iterates over the entries map, returning each key along with its status.
+    /// If the value is true, it's considered incomplete, and if it's false, it's considered complete.
+    pub fn read(&self) -> HashMap<&String, String> {
+        let mut entries = HashMap::new();
+        for (key, value) in &self.entries {
+            let status = if *value {
+                "Incomplete".to_string()
+            } else {
+                "Complete".to_string()
+            };
+            entries.insert(key, status);
+        }
+        entries
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_todo_insert() {
+        let mut todo = Todo::new().unwrap();
+        assert_eq!(todo.insert("Task 1"), None);
+        assert_eq!(todo.entries.len(), 1);
+        assert_eq!(todo.insert("Task 1"), Some(true));
+        assert_eq!(todo.entries.len(), 1);
+    }
+
+    #[test]
+    fn test_todo_complete() {
+        let mut todo = Todo::new().unwrap();
+        todo.insert("Task 1");
+        assert_eq!(todo.complete("Task 2"), None);
+        assert_eq!(todo.complete("Task 1"), Some(()));
+        assert_eq!(todo.entries.get("Task 1"), Some(&false));
+    }
+
+    #[test]
+    fn test_todo_save() {
+        let mut todo = Todo::new().unwrap();
+        todo.insert("Task 1");
+        todo.save().unwrap();
+        let new_todo = Todo::new().unwrap();
+        assert_eq!(new_todo.entries.get("Task 1"), Some(&true));
     }
 }
