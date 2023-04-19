@@ -50,4 +50,19 @@ impl Todo {
             None => None,
         }
     }
+
+    /// Iterates over the entries map, returning each key along with its status.
+    /// If the value is true, it's considered incomplete, and if it's false, it's considered complete.
+    pub fn read(&self) -> HashMap<&String, String> {
+        let mut entries = HashMap::new();
+        for (key, value) in &self.entries {
+            let status = if *value {
+                "Incomplete".to_string()
+            } else {
+                "Complete".to_string()
+            };
+            entries.insert(key, status);
+        }
+        entries
+    }
 }
