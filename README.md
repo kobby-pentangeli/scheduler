@@ -1,6 +1,6 @@
-# TodoApp
+# Scheduler
 
-A command-line TO-DO application
+Schedule and manage your tasks in a `TO-DO` or diary style.
 
 ## Contributing
 
@@ -8,9 +8,9 @@ Thank you for considering to contribute to this project!
 
 All contributions large and small are actively accepted.
 
-- To get started, please read the [contribution guidelines](https://github.com/kobby-pentangeli/todoapp-rs/blob/master/CONTRIBUTING.md).
+- To get started, please read the [contribution guidelines](https://github.com/kobby-pentangeli/scheduler/blob/master/CONTRIBUTING.md).
 
-- Browse [Good First Issues](https://github.com/kobby-pentangeli/todoapp-rs/labels/good%20first%20issue).
+- Browse [Good First Issues](https://github.com/kobby-pentangeli/scheduler/labels/good%20first%20issue).
 
 ## License
 
