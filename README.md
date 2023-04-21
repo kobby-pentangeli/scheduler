@@ -23,13 +23,13 @@ cargo install --git https://github.com/kobby-pentangeli/scheduler
 - Add/schedule a task (a to-do item):
 
 ```bash
-shapp add "YOUR TASK HERE"
+schapp add "YOUR TASK HERE"
 ```
 
 - Mark a task as complete:
 
 ```bash
-shapp complete "YOUR TASK HERE"
+schapp complete "YOUR TASK HERE"
 ```
 
 ## Contributing
