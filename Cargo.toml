@@ -21,7 +21,7 @@ harness = true
 crate-type = ["cdylib", "rlib"]
 
 [[bin]]
-name = "scheduler_app"
+name = "schapp"
 path = "src/main.rs"
 test = false
 bench = false

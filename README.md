@@ -2,6 +2,36 @@
 
 Schedule and manage your tasks in a `TO-DO` or diary style.
 
+## Setup
+
+*Local installation*:
+
+```bash
+git clone https://github.com/kobby-pentangeli/scheduler
+cd scheduler
+cargo install --path .
+```
+
+*Remote installation*:
+
+```bash
+cargo install --git https://github.com/kobby-pentangeli/scheduler
+```
+
+## Running
+
+- Add/schedule a task (a to-do item):
+
+```bash
+shapp add "YOUR TASK HERE"
+```
+
+- Mark a task as complete:
+
+```bash
+shapp complete "YOUR TASK HERE"
+```
+
 ## Contributing
 
 Thank you for considering to contribute to this project!
