@@ -1,10 +1,9 @@
 use crate::{error::Error, Result};
-use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs::OpenOptions;
 
 /// Represents a container for scheduled tasks
-#[derive(Default, Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug)]
 pub struct TaskManager {
     // A map of scheduled tasks, where the keys represent the items
     // and the values are booleans indicating whether the tasks are completed.

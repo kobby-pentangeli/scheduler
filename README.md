@@ -2,6 +2,8 @@
 
 Schedule and manage your tasks in a `TO-DO` or diary style.
 
+**NOTE**: Running the application (binary) or running the unit tests will create a `db.json` file the root. Please ensure that this `db.json` file is deleted before subsequent runs, in order to avoid test failures and/or false positives.
+
 ## Setup
 
 *Local installation*:
