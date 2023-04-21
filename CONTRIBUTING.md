@@ -8,7 +8,7 @@ Please read through this document before submitting any issues or pull requests 
 
 Kindly use the GitHub issue tracker to report bugs or suggest features.
 
-When filing an issue, please check [existing open](https://github.com/kobby-pentangeli/todoapp-rs/issues), or [recently closed](https://github.com/kobby-pentangeli/todoapp-rs/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aclosed%20) issues to make sure somebody else hasn't already reported the issue. Please try to include as much information as you can. Details like these are incredibly useful:
+When filing an issue, please check [existing open](https://github.com/kobby-pentangeli/scheduler/issues), or [recently closed](https://github.com/kobby-pentangeli/scheduler/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aclosed%20) issues to make sure somebody else hasn't already reported the issue. Please try to include as much information as you can. Details like these are incredibly useful:
 
 * A reproducible test case or series of steps
 * The version of the code being used
@@ -37,6 +37,6 @@ GitHub provides additional document on [forking a repository](https://help.githu
 
 ## Licensing
 
-See the [LICENSE-MIT](https://github.com/kobby-pentangeli/todoapp-rs/blob/master/LICENSE-MIT) and [LICENSE-APACHE](https://github.com/kobby-pentangeli/todoapp-rs/blob/master/LICENSE-APACHE) files for this project's licensing. Kindly confirm the licensing of your contribution.
+See the [LICENSE-MIT](https://github.com/kobby-pentangeli/scheduler/blob/master/LICENSE-MIT) and [LICENSE-APACHE](https://github.com/kobby-pentangeli/scheduler/blob/master/LICENSE-APACHE) files for this project's licensing. Kindly confirm the licensing of your contribution.
 
 You may be asked to sign a [Contributor License Agreement (CLA)](http://en.wikipedia.org/wiki/Contributor_License_Agreement) for larger changes.

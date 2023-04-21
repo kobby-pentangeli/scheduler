@@ -1,4 +1,4 @@
-use todoapp::Todo;
+use scheduler::Todo;
 
 fn main() {
     let action = std::env::args()
