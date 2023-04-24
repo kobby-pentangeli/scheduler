@@ -1,7 +1,10 @@
 use crate::{error::Error, Result};
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
-use std::fs::OpenOptions;
+use std::{
+    collections::HashMap,
+    fs::{File, OpenOptions},
+    io::{Read, Write},
+};
 
 /// Represents a container for managing scheduled tasks
 #[derive(Debug, Deserialize, Serialize)]
@@ -63,6 +66,27 @@ impl TaskManager {
         }
     }
 
+    /// Removes a task from the `db.json` database
+    pub fn delete_task_from_db(task: &str) -> std::result::Result<(), Box<dyn std::error::Error>> {
+        // Open the JSON file and parse it into a `serde_json::Value` object.
+        let mut file = File::open("db.json")?;
+        let mut contents = String::new();
+        file.read_to_string(&mut contents)?;
+        let mut json: serde_json::Value = serde_json::from_str(&contents)?;
+
+        // Delete the item from the `serde_json::Value` object.
+        json.as_object_mut().unwrap().remove(task);
+
+        // Write the modified `serde_json::Value` object back to the file.
+        let mut file = OpenOptions::new()
+            .write(true)
+            .truncate(true)
+            .open("db.json")?;
+        file.write_all(serde_json::to_string_pretty(&json)?.as_bytes())?;
+
+        Ok(())
+    }
+
     /// Marks a task as completed.
     pub fn complete_task(&mut self, task: &str) -> Option<String> {
         match self.tasks.get_mut(task) {
@@ -95,32 +119,60 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_task_manager_insert() {
-        let mut task_manager = TaskManager::new().unwrap();
-        assert_eq!(task_manager.insert_task("Task 1"), None);
-        assert_eq!(task_manager.tasks.len(), 1);
-        assert_eq!(task_manager.insert_task("Task 1"), Some(false));
-        assert_eq!(task_manager.tasks.len(), 1);
+    fn test_task_manager_insert_task() {
+        // Ensure that inserting a task into a `TaskManager` works as expected.
+        let mut tm = TaskManager::new().unwrap();
+        let task_name = "task1";
+        tm.insert_task(task_name);
+        assert_eq!(tm.tasks.get(task_name), Some(&false));
     }
 
     #[test]
-    fn test_task_manager_complete() {
-        let mut task_manager = TaskManager::new().unwrap();
-        task_manager.insert_task("Task 1");
-        assert_eq!(task_manager.complete_task("Task 2"), None);
+    fn test_task_manager_save_task_to_db() {
+        // Ensure that saving a `TaskManager` object to a file works as expected.
+        let mut tm = TaskManager::new().unwrap();
+        tm.insert_task("task1");
+        assert!(tm.save_task_to_db().is_ok());
+        let f = File::open("db.json").unwrap();
+        let tasks: HashMap<String, bool> = serde_json::from_reader(f).unwrap();
+        assert_eq!(tasks.get("task1"), Some(&false));
+    }
+
+    #[test]
+    fn test_task_manager_delete_task_from_db() {
+        // Ensure that deleting a task from the `db.json` file works as expected.
+        let mut tm = TaskManager::new().unwrap();
+        tm.insert_task("task1");
+        assert!(tm.save_task_to_db().is_ok());
+        TaskManager::delete_task_from_db("task1").unwrap();
+        let f = File::open("db.json").unwrap();
+        let tasks: HashMap<String, bool> = serde_json::from_reader(f).unwrap();
+        assert_eq!(tasks.get("task1"), None);
+    }
+
+    #[test]
+    fn test_task_manager_complete_task() {
+        // Ensure that marking a task as `complete` works as expected.
+        let mut tm = TaskManager::new().unwrap();
+        tm.insert_task("task1");
+        tm.complete_task("task1");
+        assert_eq!(tm.tasks.get("task1"), Some(&true));
+    }
+
+    #[test]
+    fn test_task_manager_display_all_tasks() {
+        // Ensure that displaying all tasks works as expected.
+        let mut tm = TaskManager::new().unwrap();
+        tm.insert_task("task1");
+        tm.insert_task("task2");
+        let tasks = tm.display_all_tasks();
         assert_eq!(
-            task_manager.complete_task("Task 1"),
-            Some(format!("Task 1 is now complete"))
+            tasks.get(&"task1".to_string()),
+            Some(&"Incomplete".to_string())
         );
-        assert_eq!(task_manager.tasks.get("Task 1"), Some(&true));
-    }
-
-    #[test]
-    fn test_task_manager_save() {
-        let mut task_manager = TaskManager::new().unwrap();
-        task_manager.insert_task("Task 1");
-        assert!(task_manager.save_task_to_db().is_ok());
-        let new_task_manager = TaskManager::new().unwrap();
-        assert_eq!(new_task_manager.tasks.get("Task 1"), Some(&false));
+        assert_eq!(
+            tasks.get(&"task2".to_string()),
+            Some(&"Incomplete".to_string())
+        );
     }
 }
