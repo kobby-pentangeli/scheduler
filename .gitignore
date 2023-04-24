@@ -1,5 +1,6 @@
 /target
 .vscode
 .DS_Store
+src/.DS_Store
 db.json
 TODO
